@@ -3,7 +3,13 @@
 <template>
   <div>
     <h1>あたらしくはじめる</h1>
-    <form @submit.prevent></form>
+    <p>では　はじめに　きみの　なまえを　おしえて　もらおう！</p>
+    <form @submit.prevent>
+      <p>なまえ</p>
+      <p>とくていの　もじは　とりのぞかれるぞ！</p>
+      <input>
+      <GamifyButton>けってい</GamifyButton>
+    </form>
   </div>
 </template>
 
