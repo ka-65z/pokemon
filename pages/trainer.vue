@@ -1,4 +1,11 @@
-<script setup></script>
+<script setup>
+import {ListBucketCommand, S3Client, ListObjectsV2Command, GetObjectCommand } from "@aws-sdk/client-s3";
+const REGION = "ap-northeast-1";
+const client = new S3Client({region: REGION});
+
+
+
+</script>
 
 
 <template>
