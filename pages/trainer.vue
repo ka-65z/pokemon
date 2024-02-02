@@ -15,8 +15,10 @@ const {data:trainers} = await useTrainers ();
     <h1>つづきからはじめる</h1>
     <!--<form @submit.prevent>-->
         <GamifyList>
-            
-
+            <GamifyItem v-for="trainer in trainers" :key="trainer">
+              <!--<NuxtLink :to="`/trainer/${trainer}`">{{ trainer }}</NuxtLink>-->
+              <p>{{ trainer }}</p><!--とりあえずリンクなしの表示用-->
+            </GamifyItem>
         </GamifyList>
     <!--</form>-->
     <div>{{ trainers }}</div>
