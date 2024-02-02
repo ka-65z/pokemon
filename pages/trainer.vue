@@ -1,9 +1,11 @@
 <script setup>
-import {ListBucketCommand, S3Client, ListObjectsV2Command, GetObjectCommand } from "@aws-sdk/client-s3";
-const REGION = "ap-northeast-1";
-const client = new S3Client({region: REGION});
+//import useTrainers from '~/composables/useTrainers';akibaさんと・・
 
+//import {ListBucketCommand, S3Client, ListObjectsV2Command, GetObjectCommand } from "@aws-sdk/client-s3";
+//const REGION = "ap-northeast-1";
+//const client = new S3Client({region: REGION});トレーナー取得部分は事前に準備されたものがある。
 
+const {data:trainers} = await useTrainers ();
 
 </script>
 
@@ -13,9 +15,11 @@ const client = new S3Client({region: REGION});
     <h1>つづきからはじめる</h1>
     <!--<form @submit.prevent>-->
         <GamifyList>
+            
 
         </GamifyList>
     <!--</form>-->
+    <div>{{ trainers }}</div>
   </div>
 </template>
 
