@@ -13,8 +13,9 @@ router.get("/trainers", async (_req, res, next) => {
   try {
     const trainers = await findTrainers();
     // TODO: 期待するレスポンスボディに変更する
-    res.send(trainers);
-    console.log(`**routers.js:`, trainers);//デバッグ用追加
+    const trainerNames = trainers.map(({Key}) => Key.slice(0,4));//Key:OK key:NG replace=>slice
+    res.send(trainerNames);
+    console.log(`**routers.js:`, trainerNames);//デバッグ用追加
   } catch (err) {
     next(err);
   }
