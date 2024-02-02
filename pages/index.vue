@@ -10,6 +10,7 @@ const {data:trainers} = await useTrainers();//ここでS3バケットからト�
   <div>
     <h1>ポケットモンスター</h1>
     <GamifyList>
+      <!--トレーナー情報なし時のリンク選択不可処理-->
       <GamifyItem v-if = "trainers.length > 0">
         <NuxtLink to="/trainer">つづきからはじめる</NuxtLink>
       </GamifyItem>
@@ -20,6 +21,6 @@ const {data:trainers} = await useTrainers();//ここでS3バケットからト�
         <NuxtLink to="/new">あたらしくはじめる</NuxtLink>
       </GamifyItem>
     </GamifyList>
-    <div>{{ trainers }}</div>
+    <!--<div>{{ trainers }}</div>-->
   </div>
 </template>
