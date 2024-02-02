@@ -15,7 +15,8 @@ router.get("/trainers", async (_req, res, next) => {
     // TODO: 期待するレスポンスボディに変更する
     const trainerNames = trainers.map(({Key}) => Key.slice(0,4));//Key:OK key:NG replace=>slice
     res.send(trainerNames);
-    console.log(`**routers.js:`, trainerNames);//デバッグ用追加
+    console.log(`**routers.js-trainerNames:`, trainerNames);//デバッグ用追加
+    console.log(`**router.js-trainers:`, trainers);//デバッグ用追加
   } catch (err) {
     next(err);
   }

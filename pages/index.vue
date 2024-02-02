@@ -1,8 +1,9 @@
 <script setup>
 import useTrainers from '~/composables/useTrainers';
 
-const {data:trainers} = await useTrainers();//ここでS3バケットからトレーナーファイルの中身（JSON）を取得
-//バケットリストではないの？
+const {data:trainers} = await useTrainers();
+//ここでS3バケットからファイル名を取得
+//useTrainer.js=>route.js=>trainer.js=>findTrainers ".json"削除はroute.jsにて
 
 //console.log(trainers);役に立たんwww
 </script>
