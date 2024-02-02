@@ -7,5 +7,9 @@ export default () => {
     server: false,
     baseURL: config.public.backendOrigin,
   });
+  console.log(`**useTrainers.js:config`,config);//ここはNuxtアクセス時のみ有効(http://localhost:3000/trainer)
+  console.log(`**useTrainers.js:response`, response);
+  //tarainer.vue=>useTrainer.js=>route.js=>trainer.js=>findTrainers 
+  //router.jsでトレーナー名の抽出処理が必要
   return response;
 };

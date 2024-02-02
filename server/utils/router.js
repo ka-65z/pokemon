@@ -14,6 +14,7 @@ router.get("/trainers", async (_req, res, next) => {
     const trainers = await findTrainers();
     // TODO: 期待するレスポンスボディに変更する
     res.send(trainers);
+    console.log(`**routers.js:`, trainers);//デバッグ用追加
   } catch (err) {
     next(err);
   }
