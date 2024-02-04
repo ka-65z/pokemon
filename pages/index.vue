@@ -24,6 +24,6 @@ const {data:trainers} = await useTrainers();
         <NuxtLink to="/new">あたらしくはじめる</NuxtLink>
       </GamifyItem>
     </GamifyList>
-    <!--<div>{{ trainers }}</div>-->
+    <!--<div>{{ trainers }}</div>:デバッグ用-->
   </div>
 </template>
