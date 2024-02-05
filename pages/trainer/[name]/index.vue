@@ -7,7 +7,8 @@
 const route = useRoute();
 const config = useRuntimeConfig();
 const { data: trainer} = await useFetch(
-    () => `api/trainer/${route.params.name}`,
+    () => `/api/trainer/${route.params.name}`,
+    //またパスの最初の/を忘れたため、trainer/api/trainer/バケット名に飛ばされていた
     {
         default: () => [],
         baseUrl: config.public.backendOrigin,
@@ -22,13 +23,13 @@ const { data: trainer} = await useFetch(
             <img class = trainer-img src = "/avatar.png">
             <span>{{ trainer.name }}</span>
         </div>
-        <div>{{ route }}</div>
-        <div>{{ config }}</div>
+        <div>{{ route.fullPath }}</div>
+        <div>{{ route.params.name }}</div>
         <div>{{ trainer }}</div>
     </div>
 </template>
 
-<style>
+<style scoped>
 .trainer-img {
     width: 50px;
     height: 50px;
