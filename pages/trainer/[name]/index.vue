@@ -8,7 +8,8 @@ const route = useRoute();
 const config = useRuntimeConfig();
 const { data: trainer} = await useFetch(
     () => `/api/trainer/${route.params.name}`,
-    //またパスの最初の/を忘れたため、trainer/api/trainer/バケット名に飛ばされていた
+    //またパスの最初の/を忘れたため、trainer/api/trainer/トレーナー名に飛ばされていた
+    //↓ここが壊滅的にわからない・・・
     {
         default: () => [],
         baseUrl: config.public.backendOrigin,
@@ -26,7 +27,20 @@ const { data: trainer} = await useFetch(
         <!--<div>{{ route.fullPath }}</div>デバッグ用-->
         <!--<div>{{ route.params.name }}</div>デバッグ用-->
         <div>{{ trainer }}</div>
-        <div>{{ config }}</div>
+        <!--<div>{{ config }}</div>デバッグ用-->
+        <h2>てもちのポケモン</h2>
+        <CatchButton>ポケモンをつかまえる</CatchButton>
+        <GamifyList>
+            <GamifyItem v-for="pokemon in trainer.pokemons" :key="pokemon.id">
+                <!--ここでtrainerのpokemonsのArrayをpokemonに入れる idがkey-->
+                <img :src="pokemon.sprites.front_default"/>
+                <!--<span>{{ pokemon }}</span>-->
+                <span>{{ pokemon.name}}</span>
+                <GamifyButton>ニックネームをつける</GamifyButton>
+                <GamifyButton>はかせにおくる</GamifyButton>
+            </GamifyItem>
+        </GamifyList>
+
     </div>
 </template>
 
