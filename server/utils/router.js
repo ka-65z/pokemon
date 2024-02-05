@@ -13,7 +13,7 @@ router.get("/trainers", async (_req, res, next) => {
   try {
     const trainers = await findTrainers();
     // TODO: 期待するレスポンスボディに変更する
-    const trainerNames = trainers.map(({Key}) => Key.slice(0,4));//Key:OK key:NG replace=>slice
+    const trainerNames = trainers.map(({Key}) => Key.slice(0,-5));//Key:OK key:NG replace=>slice マイナス指定で末尾から５文字を削除(.json)
     res.send(trainerNames);
     console.log(`**routers.js-trainerNames:`, trainerNames);//デバッグ用追加
     console.log(`**router.js-trainers:`, trainers);//デバッグ用追加

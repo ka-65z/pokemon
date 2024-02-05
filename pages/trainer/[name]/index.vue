@@ -23,9 +23,10 @@ const { data: trainer} = await useFetch(
             <img class = trainer-img src = "/avatar.png">
             <span>{{ trainer.name }}</span>
         </div>
-        <div>{{ route.fullPath }}</div>
-        <div>{{ route.params.name }}</div>
+        <!--<div>{{ route.fullPath }}</div>デバッグ用-->
+        <!--<div>{{ route.params.name }}</div>デバッグ用-->
         <div>{{ trainer }}</div>
+        <div>{{ config }}</div>
     </div>
 </template>
 
