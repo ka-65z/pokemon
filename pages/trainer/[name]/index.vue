@@ -26,7 +26,7 @@ const { data: trainer} = await useFetch(
             <img class = trainer-img src = "/avatar.png">
             <span>{{ trainer.name }}</span>
         </div>
-        <GamifyButton @click="$router.push('/')">マサラタウンにかえる</GamifyButton>
+        <GamifyButton @click="$router.push('/')">マサラタウンにもどるだけ</GamifyButton>
         <!--ちょっと姑息ですが、ダイレクトにrootに戻りますm(__)m-->
         <!--<div>{{ route.fullPath }}</div>デバッグ用-->
         <!--<div>{{ route.params.name }}</div>デバッグ用-->
