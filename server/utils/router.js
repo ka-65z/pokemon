@@ -62,13 +62,18 @@ router.post("/trainer/:trainerName", async (req, res, next) => {
 // TODO: トレーナーを削除する API エンドポイントの実装
 
 /** ポケモンの追加 */
-router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
+router.post("/trainer/:trainerName/:pokemonName", async (req, res, next) => {
   try {
-    const { trainerName } = req.params;
+    const { trainerName, pokemonName } = req.params;
     // TODO: リクエストボディにポケモン名が含まれていなければ400を返す
-    const pokemon = await findPokemon(req.body.name);
+    const trainer = await findTrainer(trainerName);
+    const pokemon = await findPokemon(pokemonName);
     // TODO: 削除系 API エンドポイントを利用しないかぎりポケモンは保持する
-    const result = await upsertTrainer(trainerName, { pokemons: [pokemon] });
+    //const result = await upsertTrainer(trainerName, { pokemons: [pokemon] });
+    trainer.pokemons.push({
+      id: new Date().getTime(),
+    });
+    const result = await upsertTrainer(trainerName, trainer);
     res.status(result["$metadata"].httpStatusCode).send(result);
   } catch (err) {
     next(err);

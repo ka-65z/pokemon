@@ -15,6 +15,8 @@ const { data: trainer} = await useFetch(
         baseUrl: config.public.backendOrigin,
     },
 );
+
+
 </script>
 
 <template>
@@ -24,12 +26,15 @@ const { data: trainer} = await useFetch(
             <img class = trainer-img src = "/avatar.png">
             <span>{{ trainer.name }}</span>
         </div>
+        <GamifyButton @click="$router.push('/')">マサラタウンにかえる</GamifyButton>
+        <!--ちょっと姑息ですが、ダイレクトにrootに戻りますm(__)m-->
         <!--<div>{{ route.fullPath }}</div>デバッグ用-->
         <!--<div>{{ route.params.name }}</div>デバッグ用-->
         <div>{{ trainer }}</div>
         <!--<div>{{ config }}</div>デバッグ用-->
         <h2>てもちのポケモン</h2>
-        <CatchButton>ポケモンをつかまえる</CatchButton>
+        <CatchButton :to="`/trainer/${route.params.name}/catch`">ポケモンをつかまえる</CatchButton>
+        <!--@clickでなくても遷移する？NuxtLinkでなくても:toが使えるのはCatchButton.jsに設定あるから-->
         <GamifyList>
             <GamifyItem v-for="pokemon in trainer.pokemons" :key="pokemon.id">
                 <!--ここでtrainerのpokemonsのArrayをpokemonに入れる idがkey-->
