@@ -62,7 +62,7 @@ router.post("/trainer/:trainerName", async (req, res, next) => {
 // TODO: トレーナーを削除する API エンドポイントの実装
 
 /** ポケモンの追加 */
-router.post("/trainer/:trainerName/:pokemonName", async (req, res, next) => {
+router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
   try {
     const { trainerName, pokemonName } = req.params;
     // TODO: リクエストボディにポケモン名が含まれていなければ400を返す

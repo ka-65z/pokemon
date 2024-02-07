@@ -44,7 +44,7 @@ const onSubmit = async () => {
       v-if="dialog"
       id="confirm-submit"
       title="かくにん"
-      :description="`ふむ・・・きみは　${trainerName}　と　いうのだな！`"
+      :description="`ふむ・・・きみは　${safeTrainerName}　と　いうのだな！`"
       @close="onClose"
       >
       <GamifyList :border="false" direction="horizon">
