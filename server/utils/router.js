@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { findTrainers, upsertTrainer,findTrainer } from "~/server/utils/trainer";
-import { findPokemon } from "~/server/utils/pokemon";
+import { findPokemon, findPokemon2 } from "~/server/utils/pokemon";
 
 const router = Router();
 
@@ -84,13 +84,28 @@ router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
 /** ポケモンの削除 */
 // TODO: ポケモンを削除する API エンドポイントの実装
 
-//ダミーAPI findPokemonをfetchして動作確認する時用
+//ダミーAPI findPokemonでfetchして動作確認する用
 //取得データはJSONで返ってくる来るがトレーナーにpushするには、データ加工が必要
 router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
   try {
     const pokemonNameStatic = "bulbasaur";
-    const getPokeData = await findPokemon(pokemonNameStatic);
+    const getPokeData = await findPokemon2(pokemonNameStatic);
+    //const pokeJson = JSON.parse(getPokeData); ダメです
+    //const pokeOrder = pokeJson.order.value ダメです
+    const pokeOrder = getPokeData.order;
+    const pokeName = getPokeData.name;
+    const pokeSpritesFD = getPokeData.sprites.front_default;
     res.send(getPokeData);
+    console.log(getPokeData.order);
+    console.log(getPokeData.name);
+    console.log(getPokeData.sprites.front_default);
+    console.log(`pokeOrder:`, pokeOrder);
+    console.log(`pokeName:`,pokeName);
+    console.log(`pokeSpritesFD:`,pokeSpritesFD);
+    //pokeOrder,pokeName,pokeSpritesFDを使って、trainerのPokémons Arrayに追加するArrayを作る
+    const trainerPushArray = {id: new Date().getTime(),name:pokeName};
+    console.log(trainerPushArray);
+
   } catch (err) {
     next(err);
   }
