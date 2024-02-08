@@ -3,6 +3,7 @@ import s3Client from "./s3Client";
 
 const config = useRuntimeConfig();
 
+/** S3から取得したstream形式をstringに変換する */
 const streamToString = (stream) =>
   new Promise((resolve, reject) => {
     const chunks = [];

@@ -10,8 +10,10 @@ const { data: trainer} = await useFetch(
     () => `/api/trainer/${route.params.name}`,
     //またパスの最初の/を忘れたため、trainer/api/trainer/トレーナー名に飛ばされていた
     //↓ここが壊滅的にわからない・・・
+    //トレーナー画面再読み込みするとトレーナー取得に失敗の対応追加 srver: false,
     {
         default: () => [],
+        server: false,
         baseUrl: config.public.backendOrigin,
     },
 );

@@ -8,10 +8,32 @@ const {data: pokemons } = await useFetch(
 );
 //ポケモンの取得は10体の固定値で・・・時間があれば、offsetに二桁の乱数を入れてみたい
 
-const pokemonName = ref("");
+//const pokemonName = ref("");ダイアログからダイレクトに取得可能なことが判明したので・・・
 const { dialog, onOpen, onClose } = useDialog();
 //console.log(pokemonName);
-
+//routeからトレーナー名を取得する
+const route =useRoute();
+//useRuntimeConfigからfetch用のbackOriginを取得する
+const config = useRuntimeConfig();
+//newよりコピペ
+const onCatch = async (pokemon) => {
+    //routeからトレーナー名取得 ${route.params.name}
+  const response = await $fetch(`/api/trainer/${route.params.name}/pokemon`, {
+    baseURL: config.public.backOrigin,
+    method: "POST",
+    /**headers: {
+      "Content-Type": "application/json",
+    },ここは不要？*/
+    /**body: JSON.stringify({
+      name: pokemon.name,
+    }),$fetchがJSONにしてくれるので不要*/
+    body: {
+        name: pokemon.name,
+    },
+  }).catch((e) => e);
+  if  (response instanceof Error) return;
+  router.push(`/trainer/${route.params.name}`);
+};
 
 </script>
 
@@ -24,14 +46,15 @@ const { dialog, onOpen, onClose } = useDialog();
             <GamifyItem v-for="pokemon in pokemons.results" :key="pokemon.url">
                 <span class="pokemon-name">{{ pokemon.name }}</span>
                 <!--このclassはGamifyItemに設定してあった-->
-                <GamifyButton @click="onOpen(true) , (pokemonName = pokemon.name)">かくほ</GamifyButton>
+                <!--<GamifyButton @click="onOpen(true) , (pokemonName = pokemon.name)">かくほ</GamifyButton>kunoさんの動画からお蔵入り-->
+                <GamifyButton @click="onOpen(pokemon)">かくほ</GamifyButton>
             </GamifyItem>
         </GamifyList>
         <GamifyDialog
             v-if="dialog"
             id="confirm-submit"
             title="かくにん"
-            :description="`ほう　${pokemonName}　にするんじゃな？`"
+            :description="`ほう　${dialog.name}　にするんじゃな？`"
             @close="onClose"
             >
             <GamifyList :border="false" direction="horizon">
@@ -39,8 +62,11 @@ const { dialog, onOpen, onClose } = useDialog();
                     <GamifyButton @click="onClose">いいえ</GamifyButton>
                 </GamifyItem>
                 <GamifyItem>
-                    <!--<GamifyButton @click="onSubmit">はい</GamifyButton>-->
+                    <GamifyButton @click="onCatch(dialog)">はい</GamifyButton>
                 </GamifyItem>
+                <!--<GamifyItem>
+                    {{ dialog }}
+                </GamifyItem>デバッグ用-->
                 <!--<GamifyItem>
                     {{ pokemonName }}
                 </GamifyItem>デバッグ用-->

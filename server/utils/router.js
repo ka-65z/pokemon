@@ -64,10 +64,11 @@ router.post("/trainer/:trainerName", async (req, res, next) => {
 /** ポケモンの追加 */
 router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
   try {
-    const { trainerName, pokemonName } = req.params;
+    const { trainerName } = req.params;
+    const { pokemonName } = req.body.name;
     // TODO: リクエストボディにポケモン名が含まれていなければ400を返す
     const trainer = await findTrainer(trainerName);
-    const pokemon = await findPokemon(pokemonName);
+    const Pokemon = await findPokemon(pokemonName);
     // TODO: 削除系 API エンドポイントを利用しないかぎりポケモンは保持する
     //const result = await upsertTrainer(trainerName, { pokemons: [pokemon] });
     trainer.pokemons.push({
@@ -82,5 +83,18 @@ router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
 
 /** ポケモンの削除 */
 // TODO: ポケモンを削除する API エンドポイントの実装
+
+//ダミーAPI findPokemonをfetchして動作確認する時用
+//取得データはJSONで返ってくる来るがトレーナーにpushするには、データ加工が必要
+router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
+  try {
+    const pokemonNameStatic = "bulbasaur";
+    const getPokeData = await findPokemon(pokemonNameStatic);
+    res.send(getPokeData);
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 export default router;
