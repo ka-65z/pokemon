@@ -90,12 +90,14 @@ router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
   try {
     const pokemonNameStatic = "bulbasaur";
     const getPokeData = await findPokemon2(pokemonNameStatic);
+    const trainerName ="tom"
+    const trainer =await findTrainer(trainerName);
     //const pokeJson = JSON.parse(getPokeData); ダメです
     //const pokeOrder = pokeJson.order.value ダメです
     const pokeOrder = getPokeData.order;
     const pokeName = getPokeData.name;
     const pokeSpritesFD = getPokeData.sprites.front_default;
-    res.send(getPokeData);
+    //res.send(getPokeData);
     console.log(getPokeData.order);
     console.log(getPokeData.name);
     console.log(getPokeData.sprites.front_default);
@@ -103,8 +105,16 @@ router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
     console.log(`pokeName:`,pokeName);
     console.log(`pokeSpritesFD:`,pokeSpritesFD);
     //pokeOrder,pokeName,pokeSpritesFDを使って、trainerのPokémons Arrayに追加するArrayを作る
-    const trainerPushArray = {id: new Date().getTime(),name:pokeName};
+    const trainerPushArray = {id: new Date().getTime(),nickname:"",order:pokeOrder,name:pokeName,sprites:{"front_default":pokeSpritesFD}};
     console.log(trainerPushArray);
+    res.send(trainerPushArray);
+    //trainerにpushする
+    console.log(trainer);
+    trainer.pokemons.push(trainerPushArray);
+    console.log(trainer);
+    //S3のtrainerを新規のtrainerで更新する
+    const result = await upsertTrainer(trainerName,trainer);
+    res.send(result);
 
   } catch (err) {
     next(err);
