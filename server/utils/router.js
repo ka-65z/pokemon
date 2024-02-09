@@ -67,6 +67,9 @@ router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
     const { trainerName } = req.params;
     const pokemonName  = req.body.name;
     // TODO: リクエストボディにポケモン名が含まれていなければ400を返す
+    if (!("name" in req.body && req.body.name.length >0))
+      return res.sendStatus(400);
+    
     const trainer = await findTrainer(trainerName);
     const pokemon = await findPokemon(pokemonName);
     const pokeOrder = pokemon.order;
@@ -88,9 +91,10 @@ router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
 /** ポケモンの削除 */
 // TODO: ポケモンを削除する API エンドポイントの実装
 
+
 //ダミーAPI findPokemonでfetchして動作確認する用(router.js=>pokemon.js)
 //取得データはJSONで返ってくる来るがトレーナーにpushするには、データ加工が必要
-//データ加工も完了でダミーAPIその1としては完了（WebブラウザーからAPI直接たたく。本番環境はこれの静的部分を動的に！
+//データ加工も完了でダミーAPIその1としては完了（WebブラウザーからAPIを直接たたく。本番環境はこれの静的部分を動的に！
 router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
   try {
     const pokemonNameStatic = "bulbasaur";

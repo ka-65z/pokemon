@@ -36,7 +36,8 @@ const onCatch = async (pokemon) => {
   if  (response instanceof Error) return;
   router.push(`/trainer/${route.params.name}`);
 };
-//デバッグ用POST fetch 全静的 これで送れているらしい
+//デバッグ用POST router.jsのダミーAPIその２と接続
+//fetch 全静的 これで送れているらしい
 // async() => ssync(daialog) name:"bulbasaur" => name: pokemon.nameもOK！
 const onTest = async (pokemon) => {
     const response = await $fetch(`/api/trainer/tom/pokemon2`, {
