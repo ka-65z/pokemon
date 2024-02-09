@@ -34,6 +34,21 @@ const onCatch = async (pokemon) => {
   if  (response instanceof Error) return;
   router.push(`/trainer/${route.params.name}`);
 };
+//デバッグ用POST fetch 全静的 これで送れているらしい
+// async() => ssync(daialog) name:"bulbasaur" => name: pokemon.nameもOK！
+const onTest = async (pokemon) => {
+    const response = await $fetch(`/api/trainer/tom/pokemon2`, {
+        baseURL:config.public.backOrigin,
+        method: "POST",
+        /**headers: {
+            "Content-Type":"application/json",
+        },*/
+        //body:JSON.stringify({name:"bulbasaur"}),
+        body: {name: pokemon.name,},
+    }).catch((e) => e);
+    if (response instanceof Error) return;
+    router.push(`/trainer/tom`);
+};
 
 </script>
 
@@ -70,6 +85,9 @@ const onCatch = async (pokemon) => {
                 <!--<GamifyItem>
                     {{ pokemonName }}
                 </GamifyItem>デバッグ用-->
+                <GamifyItem>
+                    <GamifyButton @click="onTest(dialog)">てすとそうしん</GamifyButton>
+                </GamifyItem>
             </GamifyList>
         </GamifyDialog>
     </div>

@@ -65,14 +65,18 @@ router.post("/trainer/:trainerName", async (req, res, next) => {
 router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
   try {
     const { trainerName } = req.params;
-    const { pokemonName } = req.body.name;
+    const pokemonName  = req.body.name;
     // TODO: リクエストボディにポケモン名が含まれていなければ400を返す
     const trainer = await findTrainer(trainerName);
-    const Pokemon = await findPokemon(pokemonName);
+    const pokemon = await findPokemon(pokemonName);
+    const pokeOrder = pokemon.order;
+    const pokeName = pokemon.name;
+    const pokeSpritesFD = pokemon.sprites.front_default;
+
     // TODO: 削除系 API エンドポイントを利用しないかぎりポケモンは保持する
     //const result = await upsertTrainer(trainerName, { pokemons: [pokemon] });
     trainer.pokemons.push({
-      id: new Date().getTime(),
+      id: new Date().getTime(),nickname:"",order:pokeOrder,name:pokeName,sprites:{"front_default":pokeSpritesFD}
     });
     const result = await upsertTrainer(trainerName, trainer);
     res.status(result["$metadata"].httpStatusCode).send(result);
@@ -104,7 +108,7 @@ router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
     console.log(`pokeOrder:`, pokeOrder);
     console.log(`pokeName:`,pokeName);
     console.log(`pokeSpritesFD:`,pokeSpritesFD);
-    //pokeOrder,pokeName,pokeSpritesFDを使って、trainerのPokémons Arrayに追加するArrayを作る
+    //pokeOrder,pokeName,pokeSpritesFDを使って、trainerのPokemons Arrayに追加するArrayを作る
     const trainerPushArray = {id: new Date().getTime(),nickname:"",order:pokeOrder,name:pokeName,sprites:{"front_default":pokeSpritesFD}};
     console.log(trainerPushArray);
     res.send(trainerPushArray);
@@ -115,11 +119,27 @@ router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
     //S3のtrainerを新規のtrainerで更新する
     const result = await upsertTrainer(trainerName,trainer);
     res.send(result);
+    //ダミーAPIとしては完成 => 本番環境のPOSTにこれをキレイに移植www
 
   } catch (err) {
     next(err);
   }
 });
 
+//ダミーAPIその２ vueからPOSTでポケモン名がボディに格納できているか確認用
+router.post("/trainer/:trainerName/pokemon2", async (req,res,next) => {
+  try{
+    const {trainerName} = req.params;
+    const pokemonName = req.body.name;//JSON.stringfyも不要らしい
+    //const trainer = await findTrainer(trainerName);
+    if (!("name" in req.body && req.body.name.length >0))
+      return res.sendStatus(400);
+    //const pokemon = await findPokemon2(pokemonName);
+    //res.send(trainerName);//レスポンス無しは、邪道かな？
+    console.log(pokemonName,trainerName);//ログがundifinedになるのは、const {pokemonName} => const pokemonNameでした
+  } catch (err) {
+    next(err);
+  }
+});
 
 export default router;
