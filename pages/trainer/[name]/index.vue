@@ -32,7 +32,7 @@ const { data: trainer} = await useFetch(
         <!--ちょっと姑息ですが、ダイレクトにrootに戻りますm(__)m-->
         <!--<div>{{ route.fullPath }}</div>デバッグ用-->
         <!--<div>{{ route.params.name }}</div>デバッグ用-->
-        <div>{{ trainer }}</div>
+        <!--<div>{{ trainer }}</div>-->
         <!--<div>{{ config }}</div>デバッグ用-->
         <h2>てもちのポケモン</h2>
         <CatchButton :to="`/trainer/${route.params.name}/catch`">ポケモンをつかまえる</CatchButton>

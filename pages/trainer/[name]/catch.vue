@@ -56,7 +56,7 @@ const onTest = async (pokemon) => {
     <div>
         <h1>ポケモンをつかまえる</h1>
         <h3>10しゅるいのポケモンからえらんでね</h3><!--pタグを使用したらワーニング発生-->
-        <div>{{ pokemons }}</div><!--デバッグ用-->
+        <!--<div>{{ pokemons }}</div>デバッグ用-->
         <GamifyList>
             <GamifyItem v-for="pokemon in pokemons.results" :key="pokemon.url">
                 <span class="pokemon-name">{{ pokemon.name }}</span>

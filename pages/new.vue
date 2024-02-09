@@ -56,7 +56,7 @@ const onSubmit = async () => {
         </GamifyItem>
       </GamifyList>
     </GamifyDialog>
-    <div>{{ valid }}</div>
+    <!--<div>{{ valid }}</div>デバッグ用-->
   </div>
 </template>
 

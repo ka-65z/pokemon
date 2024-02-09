@@ -18,7 +18,7 @@ const {data:trainers} = await useTrainers ();
             </GamifyItem>
         </GamifyList>
     <!--</form>-->
-    <div>{{ trainers }}</div>
+    <!--<div>{{ trainers }}</div>デバッグ用-->
   </div>
 </template>
 

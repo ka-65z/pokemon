@@ -88,8 +88,9 @@ router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
 /** ポケモンの削除 */
 // TODO: ポケモンを削除する API エンドポイントの実装
 
-//ダミーAPI findPokemonでfetchして動作確認する用
+//ダミーAPI findPokemonでfetchして動作確認する用(router.js=>pokemon.js)
 //取得データはJSONで返ってくる来るがトレーナーにpushするには、データ加工が必要
+//データ加工も完了でダミーAPIその1としては完了（WebブラウザーからAPI直接たたく。本番環境はこれの静的部分を動的に！
 router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
   try {
     const pokemonNameStatic = "bulbasaur";
@@ -127,6 +128,7 @@ router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
 });
 
 //ダミーAPIその２ vueからPOSTでポケモン名がボディに格納できているか確認用
+//(catch.vue=>router.js)
 router.post("/trainer/:trainerName/pokemon2", async (req,res,next) => {
   try{
     const {trainerName} = req.params;
