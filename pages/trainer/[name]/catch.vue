@@ -85,9 +85,9 @@ const onTest = async (pokemon) => {
                 <!--<GamifyItem>
                     {{ pokemonName }}
                 </GamifyItem>デバッグ用-->
-                <GamifyItem>
+                <!--<GamifyItem>
                     <GamifyButton @click="onTest(dialog)">てすとそうしん</GamifyButton>
-                </GamifyItem>
+                </GamifyItem>デバッグ用-->
             </GamifyList>
         </GamifyDialog>
     </div>
