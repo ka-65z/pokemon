@@ -109,7 +109,7 @@ router.get("/trainer/tom/pokemondummy", async (req,res,next) => {
     console.log(`pokeOrder:`, pokeOrder);
     console.log(`pokeName:`,pokeName);
     console.log(`pokeSpritesFD:`,pokeSpritesFD);
-    //pokeOrder,pokeName,pokeSpritesFDを使って、trainerのPokemons Arrayに追加するArrayを作る
+    //pokeOrder,pokeName,pokeSpritesFDを使って、trainerのPokemons Arrayに追加するdataを作る
     const trainerPushArray = {id: new Date().getTime(),nickname:"",order:pokeOrder,name:pokeName,sprites:{"front_default":pokeSpritesFD}};
     console.log(trainerPushArray);
     res.send(trainerPushArray);

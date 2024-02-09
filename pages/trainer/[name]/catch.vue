@@ -15,6 +15,8 @@ const { dialog, onOpen, onClose } = useDialog();
 const route =useRoute();
 //useRuntimeConfigからfetch用のbackOriginを取得する
 const config = useRuntimeConfig();
+//最後に画面遷移するrouterが抜けていましたeslintは検知してくれないのね～
+const router = useRouter();
 //newよりコピペ
 const onCatch = async (pokemon) => {
     //routeからトレーナー名取得 ${route.params.name}
