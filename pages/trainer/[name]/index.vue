@@ -42,7 +42,7 @@ const { data: trainer} = await useFetch(
                 <!--ここでtrainerのpokemonsのArrayをpokemonに入れる idがkey-->
                 <img :src="pokemon.sprites.front_default"/>
                 <!--<span>{{ pokemon }}</span>-->
-                <span>{{ pokemon.name}}</span>
+                <span class="pokemon-name">{{ pokemon.name}}</span>
                 <GamifyButton>ニックネームをつける</GamifyButton>
                 <GamifyButton>はかせにおくる</GamifyButton>
             </GamifyItem>
@@ -56,4 +56,25 @@ const { data: trainer} = await useFetch(
     width: 50px;
     height: 50px;
 }
+/**.gamify-item:hover img {
+    animation: bounce ;
+    animation-duration: 1.0s;
+    animation-iteration-count: infinite;
+}*/
+/**ここでマウスホバーでジャンプするアニメ付加（CSS3）inifiniteで再生無限 */
+
+.gamify-item:hover img {
+    animation: rotate;
+    animation-duration: 0.7s;
+    animation-iteration-count: infinite;
+}
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/**ちょっと遊んでみましたwww */
 </style>
