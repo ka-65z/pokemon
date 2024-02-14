@@ -156,7 +156,7 @@ const onNickname = async (pokemon) => {
                     <GamifyButton @click="onNickname(nicknameDialog)">けってい</GamifyButton>
                 </GamifyItem>
                 <!--<GamifyItem>
-                    {{ releaseDialog.id }}
+                    {{ nicknameDialog.id }}
                 </GamifyItem>デバッグ用こっちは意味がある-->
             </GamifyList>
         </GamifyDialog>
