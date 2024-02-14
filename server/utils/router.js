@@ -56,6 +56,9 @@ router.post("/trainer/:trainerName", async (req, res, next) => {
   try {
     const { trainerName } = req.params;
     // TODO: トレーナーが存在していなければ404を返す
+    const trainers = await findTrainers();
+    if (!trainers.some(({ Key }) => Key === `${trainerName}.json`))
+      return res.sendStatus(404);
     const result = await upsertTrainer(trainerName, req.body);
     res.status(result["$metadata"].httpStatusCode).send(result);
   } catch (err) {

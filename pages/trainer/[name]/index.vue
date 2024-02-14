@@ -73,7 +73,7 @@ const onRelease = async (pokemonId)  => {
                 <img :src="pokemon.sprites.front_default"/>
                 <!--<span>{{ pokemon }}</span>-->
                 <span class="pokemon-name">{{ pokemon.name}}</span>
-                <GamifyButton>ニックネームをつける</GamifyButton>
+                <GamifyButton @click="onOpenNickname(pokemon)">ニックネームをつける</GamifyButton>
                 <GamifyButton @click="onOpenRelease(pokemon)">はかせにおくる</GamifyButton>
             </GamifyItem>
         </GamifyList>
@@ -92,8 +92,8 @@ const onRelease = async (pokemonId)  => {
                     <GamifyButton @click="onDelete()">はい</GamifyButton>
                 </GamifyItem>
                 <!--<GamifyItem>
-                    {{ dialog }}
-                </GamifyItem>デバッグ用-->
+                    {{ deleteDialog }}
+                </GamifyItem>デバッグ用だがtrueしか取れないので意味がない-->
             </GamifyList>
         </GamifyDialog>
         <GamifyDialog
@@ -110,9 +110,28 @@ const onRelease = async (pokemonId)  => {
                 <GamifyItem>
                     <GamifyButton @click="onRelease(releaseDialog.id)">はい</GamifyButton>
                 </GamifyItem>
+                <!--<GamifyItem>
+                    {{ releaseDialog.id }}
+                </GamifyItem>デバッグ用こっちは意味がある-->
+            </GamifyList>
+        </GamifyDialog>
+        <GamifyDialog
+            v-if="nicknameDialog"
+            id="confirm-release"
+            title="かくにん"
+            :description="`${nicknameDialog.name}　の　ニックネームは？`"
+            @close="onCloseNickname"
+            >
+            <GamifyList :border="false" direction="horizon">
                 <GamifyItem>
-                    {{ dialog }}
+                    <GamifyButton @click="onCloseNickname">いいえ</GamifyButton>
                 </GamifyItem>
+                <GamifyItem>
+                    <GamifyButton @click="onNickname(nicknameDialog.id)">はい</GamifyButton>
+                </GamifyItem>
+                <!--<GamifyItem>
+                    {{ releaseDialog.id }}
+                </GamifyItem>デバッグ用こっちは意味がある-->
             </GamifyList>
         </GamifyDialog>
 
