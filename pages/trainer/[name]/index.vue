@@ -17,7 +17,16 @@ const { data: trainer} = await useFetch(
         baseUrl: config.public.backendOrigin,
     },
 );
-
+const { dialog, onOpen, onClose } = useDialog();
+const router = useRouter();
+const onDelete = async (trainer) => {
+    const response = await $fetch(`/api/trainer/${trainer.name}`,{
+        baseURL: config.public.backendOrigin,
+        method: "DELETE",
+    }).catch((e) => e);
+    if (response instanceof Error) return;
+    router.push(`/trainer`);
+};
 
 </script>
 
@@ -29,6 +38,7 @@ const { data: trainer} = await useFetch(
             <span>{{ trainer.name }}</span>
         </div>
         <GamifyButton @click="$router.push('/')">さいしょにもどるだけ</GamifyButton>
+        <GamifyButton @click="onOpen(trainer)">マサラタウンにもどる</GamifyButton>
         <!--ちょっと姑息ですが、rootに戻りますm(__)m-->
         <!--<div>{{ route.fullPath }}</div>デバッグ用-->
         <!--<div>{{ route.params.name }}</div>デバッグ用-->
@@ -47,6 +57,25 @@ const { data: trainer} = await useFetch(
                 <GamifyButton>はかせにおくる</GamifyButton>
             </GamifyItem>
         </GamifyList>
+        <GamifyDialog
+            v-if="dialog"
+            id="confirm-delete"
+            title="かくにん"
+            :description="`${dialog.name}　は　マサラタウンに　かえるんじゃな！　この　そうさは　とりけせないぞ！`"
+            @close="onClose"
+            >
+            <GamifyList :border="false" direction="horizon">
+                <GamifyItem>
+                    <GamifyButton @click="onClose">いいえ</GamifyButton>
+                </GamifyItem>
+                <GamifyItem>
+                    <GamifyButton @click="onDelete(dialog)">はい</GamifyButton>
+                </GamifyItem>
+                <!--<GamifyItem>
+                    {{ dialog }}
+                </GamifyItem>デバッグ用-->
+            </GamifyList>
+        </GamifyDialog>
 
     </div>
 </template>

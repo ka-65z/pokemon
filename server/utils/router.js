@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { findTrainers, upsertTrainer,findTrainer } from "~/server/utils/trainer";
+import { findTrainers, upsertTrainer,findTrainer, deleteTrainer } from "~/server/utils/trainer";
 import { findPokemon, findPokemon2 } from "~/server/utils/pokemon";
 
 const router = Router();
@@ -60,6 +60,15 @@ router.post("/trainer/:trainerName", async (req, res, next) => {
 
 /** トレーナーの削除 */
 // TODO: トレーナーを削除する API エンドポイントの実装
+router.delete("/trainer/:trainerName", async (req,res,next) => {
+  try {
+    const {trainerName} = req.params;
+    const result = await deleteTrainer(trainerName);
+    res.status(result["$metadata"].httpStatusCode).send(result);
+  } catch (err) {
+    next(err);
+  }
+});
 
 /** ポケモンの追加 */
 router.post("/trainer/:trainerName/pokemon", async (req, res, next) => {
