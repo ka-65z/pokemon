@@ -6,7 +6,7 @@
 <script setup>
 const route = useRoute();
 const config = useRuntimeConfig();
-const { data: trainer} = await useFetch(
+const { data: trainer, refresh} = await useFetch(
     () => `/api/trainer/${route.params.name}`,
     //またパスの最初の/を忘れたため、trainer/api/trainer/トレーナー名に飛ばされていた
     //↓ここが壊滅的にわからない・・・
@@ -17,15 +17,35 @@ const { data: trainer} = await useFetch(
         baseUrl: config.public.backendOrigin,
     },
 );
-const { dialog, onOpen, onClose } = useDialog();
+//以下はトレーナー削除で追加した部分
+//ダイアログの切り替えは事前に設定しておくらしいby kunosan douga より
+const { dialog: deleteDialog, onOpen: onOpenDelete, onClose: onColseDelete, } = useDialog();
+const { dialog: nicknameDialog, onOpen: onOpenNickname, onClose: onCloseNickname,} = useDialog();
+const { dialog: releaseDialog, onOpen: onOpenRelease, onClose: onCloseRelease,} = useDialog();
+
 const router = useRouter();
-const onDelete = async (trainer) => {
-    const response = await $fetch(`/api/trainer/${trainer.name}`,{
+//ダイアログを切り替え式にしてからvueからtrainerパラメータが渡せなくなったので変更？？？理由が知りたい
+//async(trainer) => async()
+//トレーナー情報はuseRouteから取得
+const onDelete = async () => {
+    const response = await $fetch(`/api/trainer/${route.params.name}`,{
         baseURL: config.public.backendOrigin,
         method: "DELETE",
     }).catch((e) => e);
     if (response instanceof Error) return;
     router.push(`/trainer`);
+};
+//はかせにおくる
+const onRelease = async (pokemonId)  => {
+    const response = await fetch(`/api/trainer/${route.params.name}/pokemon/${pokemonId}`,
+    {
+        baseURL: config.public.backendOrigin,
+        method: "DELETE",
+    },
+    ).catch((e) => e);
+    if (response instanceof Error) return;
+    await refresh();
+    onCloseRelease();
 };
 
 </script>
@@ -38,7 +58,7 @@ const onDelete = async (trainer) => {
             <span>{{ trainer.name }}</span>
         </div>
         <GamifyButton @click="$router.push('/')">さいしょにもどるだけ</GamifyButton>
-        <GamifyButton @click="onOpen(trainer)">マサラタウンにもどる</GamifyButton>
+        <GamifyButton @click="onOpenDelete(true)">マサラタウンにもどる</GamifyButton><!--ダイアログを切り替え式にしてからtrainer情報私不可onOpen(trainer) => onOpenDelete(true)-->
         <!--ちょっと姑息ですが、rootに戻りますm(__)m-->
         <!--<div>{{ route.fullPath }}</div>デバッグ用-->
         <!--<div>{{ route.params.name }}</div>デバッグ用-->
@@ -54,26 +74,45 @@ const onDelete = async (trainer) => {
                 <!--<span>{{ pokemon }}</span>-->
                 <span class="pokemon-name">{{ pokemon.name}}</span>
                 <GamifyButton>ニックネームをつける</GamifyButton>
-                <GamifyButton>はかせにおくる</GamifyButton>
+                <GamifyButton @click="onOpenRelease(pokemon)">はかせにおくる</GamifyButton>
             </GamifyItem>
         </GamifyList>
         <GamifyDialog
-            v-if="dialog"
+            v-if="deleteDialog"
             id="confirm-delete"
             title="かくにん"
-            :description="`${dialog.name}　は　マサラタウンに　かえるんじゃな！　この　そうさは　とりけせないぞ！`"
-            @close="onClose"
+            :description="`ほんとうに　マサラタウンに　かえるんじゃな！　この　そうさは　とりけせないぞ！`"
+            @close="onColseDelete"
             >
             <GamifyList :border="false" direction="horizon">
                 <GamifyItem>
-                    <GamifyButton @click="onClose">いいえ</GamifyButton>
+                    <GamifyButton @click="onColseDelete">いいえ</GamifyButton>
                 </GamifyItem>
                 <GamifyItem>
-                    <GamifyButton @click="onDelete(dialog)">はい</GamifyButton>
+                    <GamifyButton @click="onDelete()">はい</GamifyButton>
                 </GamifyItem>
                 <!--<GamifyItem>
                     {{ dialog }}
                 </GamifyItem>デバッグ用-->
+            </GamifyList>
+        </GamifyDialog>
+        <GamifyDialog
+            v-if="releaseDialog"
+            id="confirm-release"
+            title="かくにん"
+            :description="`ほんとうに　${releaseDialog.name}　を　はかせに　おくるんじゃな！　この　そうさは　とりけせないぞ！`"
+            @close="onCloseRelease"
+            >
+            <GamifyList :border="false" direction="horizon">
+                <GamifyItem>
+                    <GamifyButton @click="onCloseRelease">いいえ</GamifyButton>
+                </GamifyItem>
+                <GamifyItem>
+                    <GamifyButton @click="onRelease(releaseDialog.id)">はい</GamifyButton>
+                </GamifyItem>
+                <GamifyItem>
+                    {{ dialog }}
+                </GamifyItem>
             </GamifyList>
         </GamifyDialog>
 
