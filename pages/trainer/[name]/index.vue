@@ -47,7 +47,25 @@ const onRelease = async (pokemonId)  => {
     await refresh();
     onCloseRelease();
 };
-
+//ニックネームをつける
+const nickname = ref("");
+const onNickname = async (pokemon) => {
+    const newTrainer = trainer.value;
+    const index = newTrainer.pokemons.findIndex(({ id }) => id === pokemon.id);
+    newTrainer.pokemons[index].nickname = trimAvoidCharacters(nickname.value);
+    nickname.value = "";
+    const response = await $fetch(`/api/trainer/${route.params.name}`, {
+        baseURL: config.public.backendOrigin,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTrainer),
+    }).catch((e) => e);
+    if (response instanceof Error) return;
+    await refresh();
+    onCloseNickname();
+};
 </script>
 
 <template>
@@ -72,7 +90,7 @@ const onRelease = async (pokemonId)  => {
                 <!--ここでtrainerのpokemonsのArrayをpokemonに入れる idがkey-->
                 <img :src="pokemon.sprites.front_default"/>
                 <!--<span>{{ pokemon }}</span>-->
-                <span class="pokemon-name">{{ pokemon.name}}</span>
+                <span class="pokemon-name">{{ pokemon.nickname || pokemon.name}}</span>
                 <GamifyButton @click="onOpenNickname(pokemon)">ニックネームをつける</GamifyButton>
                 <GamifyButton @click="onOpenRelease(pokemon)">はかせにおくる</GamifyButton>
             </GamifyItem>
@@ -100,7 +118,7 @@ const onRelease = async (pokemonId)  => {
             v-if="releaseDialog"
             id="confirm-release"
             title="かくにん"
-            :description="`ほんとうに　${releaseDialog.name}　を　はかせに　おくるんじゃな！　この　そうさは　とりけせないぞ！`"
+            :description="`ほんとうに　${releaseDialog.nickname || releaseDialog.name}　を　はかせに　おくるんじゃな！　この　そうさは　とりけせないぞ！`"
             @close="onCloseRelease"
             >
             <GamifyList :border="false" direction="horizon">
@@ -122,12 +140,20 @@ const onRelease = async (pokemonId)  => {
             :description="`${nicknameDialog.name}　の　ニックネームは？`"
             @close="onCloseNickname"
             >
+            <div class="item">
+                <label for="name">ニックネーム</label>
+                <input
+                    id="name"
+                    v-model="nickname"
+                    @keydown.enter="onNickname(nicknameDialog)"
+                    />
+            </div>
             <GamifyList :border="false" direction="horizon">
                 <GamifyItem>
-                    <GamifyButton @click="onCloseNickname">いいえ</GamifyButton>
+                    <GamifyButton @click="onCloseNickname">キャンセル</GamifyButton>
                 </GamifyItem>
                 <GamifyItem>
-                    <GamifyButton @click="onNickname(nicknameDialog.id)">はい</GamifyButton>
+                    <GamifyButton @click="onNickname(nicknameDialog)">けってい</GamifyButton>
                 </GamifyItem>
                 <!--<GamifyItem>
                     {{ releaseDialog.id }}
