@@ -33,7 +33,7 @@ const onDelete = async () => {
         method: "DELETE",
     }).catch((e) => e);
     if (response instanceof Error) return;
-    router.push(`/trainer`);
+    router.push(`/`);
 };
 //はかせにおくる
 const onRelease = async (pokemonId)  => {
